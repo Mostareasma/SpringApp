@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Avion;
+import com.example.demo.dto.AvionDto;
+import com.example.demo.mapper.AvionMapper;
 import com.example.demo.repository.AvionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +24,10 @@ public class AvionService {
         return avionRepository.findById(id).orElseThrow(()->new Exception("Doesn't exist"));
     }
 
-    public Avion save(Avion avion) {
-        return avionRepository.save(avion);
+    public Avion save(AvionDto avion) {
+        return avionRepository.save(
+                AvionMapper.dtoToEntity(avion)
+        );
     }
 
     public void update(Avion avion) {

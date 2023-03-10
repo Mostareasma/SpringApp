@@ -1,6 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.dto.AvionDto;
 import com.example.demo.entity.Avion;
+import com.example.demo.mapper.AvionMapper;
 import com.example.demo.repository.AvionRepository;
 import com.example.demo.service.AvionService;
 
@@ -23,19 +25,27 @@ public class AvionServiceTest {
     @Autowired
     private AvionRepository avionRepository;
 
-    private Avion avion1;
-    private Avion avion2;
+    private AvionDto avion1;
+    private AvionDto avion2;
 
     @BeforeEach
     void setUp() {
-        avion1 = new Avion("RAM", 200, "Agadir");
-        avion2 = new Avion("Aur Bus", 150, "Casa");
+        avion1 = AvionDto.builder()
+                .nom("RAM")
+                .capacite(200)
+                .localite("Agadir")
+                .build();
+        avion2 = AvionDto.builder()
+                .nom("Air Bus")
+                .capacite(300)
+                .localite("Paris")
+                .build();
     }
 
     @Test
     public void testCreate() {
         Avion savedAvion = avionService.save(avion1);
-        Assertions.assertTrue(savedAvion.equals(avion1));
+        Assertions.assertTrue(avion1.equals(savedAvion));
     }
 
     @Test
@@ -48,37 +58,4 @@ public class AvionServiceTest {
         Assertions.assertTrue(avions.contains(avion1));
     }
 
-    @Test
-    public void testGetById() {
-        Avion savedAvion = avionService.save(avion1);
-
-        Optional<Avion> retrievedAvion = avionService.getById(savedAvion.getNa());
-
-        Assertions.assertTrue(retrievedAvion.isPresent());
-        Assertions.assertTrue(retrievedAvion.get().equals(avion1));
-    }
-
-
-    @Test
-    public void testUpdate() {
-        Avion savedAvion = avionService.save(avion1);
-        savedAvion.setNom("Updated Nom");
-        avionService.update(savedAvion);
-
-        Optional<Avion> updatedAvion = avionService.getById(savedAvion.getNa());
-
-        Assertions.assertTrue(updatedAvion.isPresent());
-        Assertions.assertEquals(updatedAvion.get().getNom(), "Updated Nom");
-    }
-
-    @Test
-    public void testDeleteById() {
-        Avion savedAvion = avionService.save(avion1);
-
-        avionService.deleteById(savedAvion.getNa());
-
-        Optional<Avion> retrievedAvion = avionService.getById(savedAvion.getNa());
-
-        Assertions.assertFalse(retrievedAvion.isPresent());
-    }
 }

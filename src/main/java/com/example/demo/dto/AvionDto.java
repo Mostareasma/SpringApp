@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.List;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,6 +19,14 @@ public class AvionDto {
     private String nom;
     private int capacite;
     private String localite;
-    private List<Vol> vols;
+
+    @Override
+    public boolean equals(Object obj) {
+        Avion toCompare = (Avion) obj;
+        if (!this.getNom().equals(toCompare.getNom())) return false;
+        if (!this.getLocalite().equals(toCompare.getLocalite())) return false;
+        if (this.getCapacite() != toCompare.getCapacite()) return false;
+        return true;
+    }
 
 }

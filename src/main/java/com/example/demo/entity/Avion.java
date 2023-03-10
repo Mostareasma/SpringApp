@@ -1,9 +1,11 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "avions")
 public class Avion {
@@ -16,4 +18,5 @@ public class Avion {
 
     @OneToMany(mappedBy="avion")
     private List<Vol> vols;
+
 }
